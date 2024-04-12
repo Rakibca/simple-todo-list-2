@@ -2,52 +2,32 @@ import { useState } from "react";
 import "./styles.css";
 
 function App() {
-  const [todo, setTodo] = useState("");
+  const [newTodoName, setNewTodoName] = useState("");
   const [todos, setTodos] = useState([]);
 
-  const addTodo = () => {
-    if (todo !== "") {
-      setTodos([...todos, todo]);
-      setTodo("");
-    }
-  };
-
-  const deleteTodo = (text) => {
-    const newTodos = todos.filter((todo) => {
-      return todo !== text;
+  function addNewTodo() {
+    if (newTodo === "") return
+    setTodos((currentTodos) => {
+      return [
+        ...currentTodos,
+        { name: newTodoName, completed: false, id: crypto.randomUUID() },
+      ];
     });
-    setTodos(newTodos);
-  };
+    setNewTodoName("");
+  }
 
   return (
-    <>
-      <ul id="list">
-        {todos.map((todo, index) => (
-          <li className="list-item" key={index}>
-            <label>
-              <input type="checkbox" />
-            </label>
-            {todo}
-            <button onClick={() => deleteTodo(todo)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-      <div id="new-todo-form">
-        <label>
-          New Todo{" "}
-          <input
-            type="text"
-            value={todo}
-            placeholder="Type a Todo HERE"
-            onChange={(e) => {
-              setTodo(e.target.value);
-            }}
-          />
-        </label>
-        <br />
-        <button onClick={addTodo}>Add Todo</button>
-      </div>
-    </>
+    <div id="new-todo-form">
+      {JSON.stringify(todos)}
+      <label for="todo-input">New Todo</label>
+      <input
+        type="text"
+        id="todo-input"
+        value={newTodoName}
+        onChange={(e) => setNewTodoName(e.target.value)}
+      />
+      <button onClick={addNewTodo}>Add Todo</button>
+    </div>
   );
 }
 
