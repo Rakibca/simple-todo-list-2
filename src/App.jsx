@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./styles.css";
+import TodoItem from "./TodoItem";
 
 function App() {
   const [newTodoName, setNewTodoName] = useState("");
@@ -36,7 +37,12 @@ function App() {
       <ul id="list">
         {todos.map((todo) => {
           return (
-
+            <TodoItem
+              key={todo.id}
+              {...todo}
+              toggleTodo={toggleTodo}
+              deleteTodo={deleteTodo}
+            />
           );
         })}
       </ul>
