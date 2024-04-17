@@ -16,7 +16,20 @@ function App() {
     setNewTodoName("");
   }
 
-  function toggleTodo() {}
+  function toggleTodo(todoId, completed) {
+    setTodos((currentTodos) => {
+      return currentTodos.map((todo) => {
+        if (todo.id === todoId) return { ...todo, completed };
+        return todo;
+      });
+    });
+  }
+
+  function deleteTodo(todoId) {
+    setTodos((currentTodos) => {
+      return currentTodos.filter((todo) => todo.id !== todoId);
+    });
+  }
 
   return (
     <>
@@ -29,11 +42,13 @@ function App() {
                   checked={todo.completed}
                   type="checkbox"
                   data-list-item-checkbox
-                  onChange={() => toggleTodo()}
+                  onChange={(e) => toggleTodo(todo.id, e.target.checked)}
                 />
                 <span data-list-item-text>{todo.name}</span>
               </label>
-              <button data-button-delete>Delete</button>
+              <button onClick={() => deleteTodo(todo.id)} data-button-delete>
+                Delete
+              </button>
             </li>
           );
         })}
